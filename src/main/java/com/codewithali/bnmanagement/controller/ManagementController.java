@@ -46,8 +46,8 @@ public class ManagementController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<SuccessReponse> deleteManagement(@RequestParam ManagementDto req) {
-        return ResponseEntity.ok(managementService.deleteManagement(req.getId()));
+    public ResponseEntity<SuccessReponse> deleteManagement(@PathVariable String id) {
+        return ResponseEntity.ok(managementService.deleteManagement(id));
     }
 
     @GetMapping("/getManagementsWithMonth")
