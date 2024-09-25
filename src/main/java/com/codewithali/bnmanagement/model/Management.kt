@@ -2,10 +2,11 @@ package com.codewithali.bnmanagement.model
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
+import java.math.BigDecimal
 import java.time.LocalDate
 
 @Document
-data class Management(
+data class Management @JvmOverloads constructor(
     @Id
     val id: String? = null,
     val caseNumber: Int,
@@ -15,11 +16,15 @@ data class Management(
     val vakaSehri: String,
     val hizmet: String,
     val mesafe: Int,
-    val ekPoz: String,
-    val documentUrl: String,
+    val projeFitat: BigDecimal? = null,
+    val projeFiyatTotal: BigDecimal? = null,
+    val pozBirimFiyat: BigDecimal,
+    val kmBirimFiyat: BigDecimal,
+    val total: BigDecimal,
+    val ekPoz: Int? = null,
+    val documentUrl: String? = null,
     val date: LocalDate,
-    val ilceler: String,
-    val pozSayisi: Int,
+    val pozSayisi: Int? = null,
     val vakaSonlandiran: String,
-    val aciklama: String
+    val aciklama: String? = null
 )

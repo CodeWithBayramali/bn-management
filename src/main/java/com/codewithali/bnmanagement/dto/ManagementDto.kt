@@ -1,8 +1,8 @@
 package com.codewithali.bnmanagement.dto
 
 import com.codewithali.bnmanagement.model.Management
-import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.math.BigDecimal
 import java.time.LocalDate
 
 data class ManagementDto @JvmOverloads constructor(
@@ -20,19 +20,27 @@ data class ManagementDto @JvmOverloads constructor(
     val hizmet: String,
     @JsonProperty("mesafe")
     val mesafe: Int,
+    @JsonProperty("projeFiyat")
+    val projeFitat: BigDecimal? = null,
+    @JsonProperty("projeFiyatTotal")
+    val projeFiyatTotal: BigDecimal? = null,
+    @JsonProperty("pozBirimFiyat")
+    val pozBirimFiyat: BigDecimal,
+    @JsonProperty("kmBirimFiyat")
+    val kmBirimFiyat: BigDecimal,
+    @JsonProperty("total")
+    val total: BigDecimal,
     @JsonProperty("ekPoz")
-    val ekPoz: String,
+    val ekPoz: Int?,
     @JsonProperty("date")
     val date: LocalDate,
-    @JsonProperty("ilceler")
-    val ilceler: String,
     @JsonProperty("pozSayisi")
-    val pozSayisi: Int,
+    val pozSayisi: Int?,
     @JsonProperty("vakaSonlandiran")
     val vakaSonlandiran: String,
     @JsonProperty("aciklama")
-    val aciklama: String,
-    val documentUrl: String? = null,
+    val aciklama: String?,
+    val documentUrl: String?,
     val id: String? = null,
 ) {
     companion object {
@@ -46,9 +54,13 @@ data class ManagementDto @JvmOverloads constructor(
                 from.vakaSehri,
                 from.hizmet,
                 from.mesafe,
+                from.projeFitat,
+                from.projeFiyatTotal,
+                from.pozBirimFiyat,
+                from.kmBirimFiyat,
+                from.total,
                 from.ekPoz,
                 from.date,
-                from.ilceler,
                 from.pozSayisi,
                 from.vakaSonlandiran,
                 from.aciklama,

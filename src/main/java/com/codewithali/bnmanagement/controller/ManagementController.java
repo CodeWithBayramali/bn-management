@@ -8,6 +8,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,31 +24,6 @@ public class ManagementController {
     public ManagementController(ManagementService managementService, ResourceLoader resourceLoader) {
         this.managementService = managementService;
         this.resourceLoader = resourceLoader;
-    }
-
-    @GetMapping
-    public ResponseEntity<List<ManagementDto>> getManagements(
-            @RequestParam("page") int page,
-            @RequestParam("size") int size)
-    {
-        return ResponseEntity.ok(managementService.getAllManagement(page,size));
-    }
-
-    @PostMapping
-    public ResponseEntity<SuccessReponse> addManagement(@RequestPart("managementJson") String req,
-                                                        @RequestParam("file") MultipartFile file)
-            throws JsonProcessingException {
-        return ResponseEntity.ok(managementService.createManagement(req,file));
-    }
-
-    @PutMapping
-    public ResponseEntity<SuccessReponse> updateManagement(@RequestBody ManagementDto req) {
-        return ResponseEntity.ok(managementService.updateManagement(req));
-    }
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<SuccessReponse> deleteManagement(@PathVariable String id) {
-        return ResponseEntity.ok(managementService.deleteManagement(id));
     }
 
     @GetMapping("/getManagementsWithMonth")

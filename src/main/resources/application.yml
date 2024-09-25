@@ -3,11 +3,14 @@ spring:
     name: bn-management
   data:
     mongodb:
-      host: localhost
+      host: bn-db
       port: 27017
       database: bn-db
   jwt:
     secret_keys: "RDDCT6me8cETAsAiABsYc0FwzLlu4CcNJWMBV8OdGt8Qrt2hleK1W/p/9K8kJuaNcqnsVgZ6PvfR2QcshYBGBqH3MJVekOHlQoyM9VspWkYFNovzBn/QOPiHyLGsaDhB/KIUleVCaMJK3YktQavVvGsFbld1QYXqnkeLZ9jb5tw="
-    expiration: 7200000
+    expiration: 7200000 #60000
     refresh-token:
       expiration: 604800000
+
+  frontend-url:
+    url: "http://185.9.37.6:3000"

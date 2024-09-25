@@ -12,4 +12,6 @@ public interface ManagementRepository extends MongoRepository<Management, String
             "{ '$eq': [{ '$month': '$date' }, ?0] }, " +
             "{ '$eq': [{ '$year': '$date' }, ?1] } ] } }")
     List<Management> findByDateMonthAndYear(int month, int year);
+
+
 }

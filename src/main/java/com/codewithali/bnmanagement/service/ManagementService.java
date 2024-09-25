@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -30,35 +31,50 @@ public class ManagementService {
     }
 
     public SuccessReponse createManagement(String dto, MultipartFile file) throws JsonProcessingException {
-
-        String originalFileName = file.getOriginalFilename();
-        String fileExtension = getFileExtension(originalFileName);
-        String newFileName = UUID.randomUUID() + fileExtension;
         try {
-            ManagementDto managementDto = objectMapper.readValue(dto,ManagementDto.class);
-            Path filePath = Paths.get(UPLOAD_DIR + newFileName);
-            Files.createDirectories(filePath.getParent());
-            Files.write(filePath, file.getBytes());
-            String fileUrl = "/uploads/" + newFileName;
+            // DTO'yu deseralize et
+            ManagementDto managementDto = objectMapper.readValue(dto, ManagementDto.class);
+
+            // Eğer dosya varsa işlemlerini yap, yoksa fileUrl boş bırak
+            String fileUrl = null;
+            if (file != null && !file.isEmpty()) {
+                String originalFileName = file.getOriginalFilename();
+                String fileExtension = getFileExtension(originalFileName);
+                String newFileName = UUID.randomUUID() + fileExtension;
+
+                Path filePath = Paths.get(UPLOAD_DIR + newFileName);
+                Files.createDirectories(filePath.getParent());
+                Files.write(filePath, file.getBytes());
+                fileUrl = "/uploads/" + newFileName;
+            }
+
+            // Management nesnesi oluşturuluyor
             Management management = new Management(
                     managementDto.getId(),
                     managementDto.getCaseNumber(),
-                    managementDto.getOperatorAdi(),
-                    managementDto.getFirmaAdi(),
+                    managementDto.getOperatorAdi().toUpperCase(),
+                    managementDto.getFirmaAdi().toUpperCase(),
                     managementDto.getVakaIlcesi(),
                     managementDto.getVakaSehri(),
-                    managementDto.getHizmet(),
+                    managementDto.getHizmet().toUpperCase(),
                     managementDto.getMesafe(),
+                    managementDto.getProjeFitat(),
+                    managementDto.getProjeFiyatTotal(),
+                    managementDto.getPozBirimFiyat(),
+                    managementDto.getKmBirimFiyat(),
+                    managementDto.getTotal(),
                     managementDto.getEkPoz(),
-                    fileUrl,
+                    fileUrl, // Eğer dosya yoksa null olabilir
                     managementDto.getDate(),
-                    managementDto.getIlceler(),
                     managementDto.getPozSayisi(),
-                    managementDto.getVakaSonlandiran(),
+                    managementDto.getVakaSonlandiran().toUpperCase(),
                     managementDto.getAciklama()
             );
+
+            // Veritabanına kaydet
             managementRepository.save(management);
             return new SuccessReponse("Oluşturuldu", HttpStatus.CREATED.value());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -77,10 +93,14 @@ public class ManagementService {
                     dto.getVakaSehri(),
                     dto.getHizmet(),
                     dto.getMesafe(),
+                    dto.getProjeFitat(),
+                    dto.getProjeFiyatTotal(),
+                    dto.getPozBirimFiyat(),
+                    dto.getKmBirimFiyat(),
+                    dto.getTotal(),
                     dto.getEkPoz(),
                     dto.getDocumentUrl(),
                     dto.getDate(),
-                    dto.getIlceler(),
                     dto.getPozSayisi(),
                     dto.getVakaSonlandiran(),
                     dto.getAciklama()
@@ -94,6 +114,7 @@ public class ManagementService {
     public List<ManagementDto> getAllManagementWithMonth(int month, int year) {
         return managementRepository.findByDateMonthAndYear(month,year)
                 .stream().map(ManagementDto::convertToDto)
+                .sorted(Comparator.comparing(ManagementDto::getDate).reversed())
                 .collect(Collectors.toList());
     }
 
