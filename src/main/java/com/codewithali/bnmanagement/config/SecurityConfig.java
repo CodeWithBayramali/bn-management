@@ -55,11 +55,12 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        var config = new CorsConfiguration();
-        config.addAllowedOrigins("http://bn.org.tr","http://localhost:3000");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        config.setAllowCredentials(true);
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://bn.org.tr", "http://localhost:3000")); // İzin verilen URL'ler
+        config.setAllowedHeaders(List.of("*")); // İzin verilen başlıklar
+        config.setAllowedMethods(List.of("*")); // İzin verilen HTTP metodları
+        config.setAllowCredentials(true); // Kimlik bilgilerini kabul et
+
         var source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
