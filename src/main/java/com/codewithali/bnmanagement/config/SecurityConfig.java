@@ -58,7 +58,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("http://bn.org.tr", "http://localhost:3000")); // İzin verilen URL'ler
+        config.setAllowedOrigins(Arrays.asList("http://bn.org.tr", "http://localhost:3000","http://185.9.37.6:3000")); // İzin verilen URL'ler
         config.setAllowedHeaders(Arrays.asList("*")); // İzin verilen başlıklar
         config.setAllowedMethods(Arrays.asList("*")); // İzin verilen HTTP metodları
         config.setAllowCredentials(true); // Kimlik bilgilerini kabul et
