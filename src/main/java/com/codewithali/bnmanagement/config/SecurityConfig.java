@@ -18,6 +18,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
@@ -56,9 +58,9 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://bn.org.tr", "http://localhost:3000")); // İzin verilen URL'ler
-        config.setAllowedHeaders(List.of("*")); // İzin verilen başlıklar
-        config.setAllowedMethods(List.of("*")); // İzin verilen HTTP metodları
+        config.setAllowedOrigins(Arrays.asList("http://bn.org.tr", "http://localhost:3000")); // İzin verilen URL'ler
+        config.setAllowedHeaders(Arrays.asList("*")); // İzin verilen başlıklar
+        config.setAllowedMethods(Arrays.asList("*")); // İzin verilen HTTP metodları
         config.setAllowCredentials(true); // Kimlik bilgilerini kabul et
 
         var source = new UrlBasedCorsConfigurationSource();
