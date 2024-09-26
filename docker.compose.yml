@@ -5,6 +5,10 @@ services:
     image: mongo
     ports:
       - "27017:27017"
+    deploy:
+      resources:
+        limits:
+          memory: 2G
   bn-management:
     image: bn-management
     build:
