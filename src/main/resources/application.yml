@@ -3,9 +3,7 @@ spring:
     name: bn-management
   data:
     mongodb:
-      host: localhost
-      port: 27017
-      database: bn-db
+      uri: mongodb://sadiodabasi:479408Aa@bn-db:27017/bn-db?authSource=admin
   jwt:
     secret_keys: "RDDCT6me8cETAsAiABsYc0FwzLlu4CcNJWMBV8OdGt8Qrt2hleK1W/p/9K8kJuaNcqnsVgZ6PvfR2QcshYBGBqH3MJVekOHlQoyM9VspWkYFNovzBn/QOPiHyLGsaDhB/KIUleVCaMJK3YktQavVvGsFbld1QYXqnkeLZ9jb5tw="
     expiration: 7200000 #60000
