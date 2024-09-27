@@ -3,7 +3,7 @@ spring:
     name: bn-management
   data:
     mongodb:
-      host: bn-db
+      host: localhost
       port: 27017
       database: bn-db
   jwt:

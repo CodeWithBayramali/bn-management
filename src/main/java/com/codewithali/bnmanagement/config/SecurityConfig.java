@@ -2,7 +2,6 @@ package com.codewithali.bnmanagement.config;
 
 import com.codewithali.bnmanagement.model.Role;
 import com.codewithali.bnmanagement.utils.JwtAuthFilter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -36,9 +35,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(Customizer.withDefaults())
+                .cors(cors-> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(x-> x.anyRequest().permitAll())
+                .authorizeHttpRequests(x-> x.requestMatchers("/v1/api/auth/**").permitAll())
+                .authorizeHttpRequests(x-> x.requestMatchers(
+                                        "/v1/api/management/**"
+                                ).hasAnyAuthority(Role.USER.getValue(),Role.ADMIN.getValue())
+
+                                .requestMatchers("/v1/api/admin/**").hasAuthority(Role.ADMIN.getValue())
+                                .anyRequest().authenticated()
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
@@ -48,11 +54,11 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         var config = new CorsConfiguration();
-        config.addAllowedOrigin("https://bn.org.tr");
-        config.addAllowedMethod("*");
+        config.setAllowedOrigins(Arrays.asList("https://bn.org.tr"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         config.addAllowedHeader("*");
         var source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**",config);
+        source.registerCorsConfiguration("/v1/api/**",config);
         return source;
     }
 
