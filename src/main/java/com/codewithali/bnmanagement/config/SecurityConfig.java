@@ -48,7 +48,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         var config = new CorsConfiguration();
-        config.addAllowedOrigin("*");
+        config.addAllowedOrigin("https://bn.org.tr");
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
         var source = new UrlBasedCorsConfigurationSource();
