@@ -1,16 +1,12 @@
 package com.codewithali.bnmanagement.controller;
 
 import com.codewithali.bnmanagement.dto.ManagementDto;
-import com.codewithali.bnmanagement.dto.response.SuccessReponse;
 import com.codewithali.bnmanagement.service.ManagementService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
 import java.util.List;

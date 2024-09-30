@@ -59,7 +59,7 @@ public class AuthService {
     public SuccessReponse registerUser(CreateUserRequest req) {
         Optional<User> user = userRepository.findByEmail(req.getEmail());
         if (user.isPresent()) {
-            throw new UserNotFoundException("User already exists");
+            throw new UserNotFoundException("Kullanıcı zaten kayıtlı !");
         }else {
             User newUser = new User(req.getName(), req.getEmail(), passwordEncoder.encode(req.getHashedPassword()) );
             userRepository.save(newUser);
