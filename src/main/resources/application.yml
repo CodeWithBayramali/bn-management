@@ -9,3 +9,8 @@ spring:
     expiration: 7200000 #60000
     refresh-token:
       expiration: 604800000
+
+  servlet:
+    multipart:
+      max-request-size: 7MB
+      max-file-size: 7MB
